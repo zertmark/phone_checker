@@ -26,8 +26,7 @@ $response=HTTParty.get(api)
 end
 def show_output()
  if $response.body.include? '"valid":false,'
-  print("\n[-]Phone number isn't valid or not found")
-  print("\nExiting...\n")
+  print("\n[-]Phone number isn't valid or not found\nExiting...\n")
   exit()
  else
   print("\n[+]Phone number is valid(found)")
