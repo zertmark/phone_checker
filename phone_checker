@@ -1,0 +1,39 @@
+#!/bin/ruby
+require 'httparty'
+$banner="
+                  ▄▄  ▄▄▄▄▄▄▄▄                                ▄▄        ▄▄
+       ██        ██   ▀▀▀▀▀███                        ██       █▄        █▄
+      ██        ██        ██▀    ▄████▄    ██▄████  ███████     █▄        █▄
+     ██        ██       ▄██▀    ██▄▄▄▄██   ██▀        ██         █▄        █▄
+    ▄█▀       ▄█▀      ▄██      ██▀▀▀▀▀▀   ██         ██          █▄        █
+   ▄█▀       ▄█▀      ███▄▄▄▄▄  ▀██▄▄▄▄█   ██         ██▄▄▄        █▄        █▄
+  ▄█▀       ▄█▀       ▀▀▀▀▀▀▀▀    ▀▀▀▀▀    ▀▀          ▀▀▀▀         █▄        █▄
+ "
+def main()
+ if ARGV[0] != nil
+  print($banner)
+  get_response()
+  show_output()
+ else
+  print("Usage:./phone_checker <phone-number-with-country-code>\n")
+  exit()
+ end 
+end
+def get_response()
+print("\n[*]Starting getting info about #{ARGV[0]}")
+api="http://apilayer.net/api/validate?access_key=6bc2663d231ea028c6e6c47debf9151d&number=#{ARGV[0]}&country_code=&format=1"
+$response=HTTParty.get(api)
+end
+def show_output()
+ if $response.body.include? '"valid":false,'
+  print("\n[-]Phone number isn't valid or not found")
+  print("\nExiting...\n")
+  exit()
+ else
+  print("\n[+]Phone number is valid(found)")
+  sleep(0.5)
+  print("\n[+]Printing info: #{$response.body}")
+  exit()
+ end
+end
+main()
